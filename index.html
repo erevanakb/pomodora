@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دروست کراوە لەلایەن ئیریڤان
+        تایمەری پۆمۆدۆرۆ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFB84D 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #FF6B6B;
+            margin-bottom: 10px;
+            font-size: 2.8em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .timer-display {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFB84D 100%);
+            color: white;
+            font-size: 5em;
+            padding: 50px;
+            border-radius: 25px;
+            margin: 30px 0;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            min-height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+        
+        .status {
+            font-size: 1.5em;
+            color: #FF6B6B;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E72 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 130px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(-1px);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+        
+        .reset-btn:hover {
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+        
+        .info {
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFF3E0 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: right;
+            border: 2px solid #FF6B6B;
+        }
+        
+        .info p {
+            color: #333;
+            margin: 10px 0;
+            font-size: 1.05em;
+        }
+        
+        .cycle-info {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .cycle-box {
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFF3E0 100%);
+            padding: 20px;
+            border-radius: 15px;
+            flex: 1;
+            border: 2px solid #FFB84D;
+        }
+        
+        .cycle-box h3 {
+            color: #FF6B6B;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+        
+        .cycle-box p {
+            color: #333;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: #FFE5E5;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+            border: 2px solid #FF6B6B;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B 0%, #FFB84D 100%);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .settings-btn {
+            background: #FFB84D;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            direction: rtl;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: right;
+        }
+
+        .close {
+            color: #FF6B6B;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .setting-group {
+            margin: 20px 0;
+            text-align: right;
+        }
+
+        .setting-group label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .setting-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #FF6B6B;
+            border-radius: 8px;
+            font-size: 1em;
+            direction: rtl;
+        }
+
+        .modal-button {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFB84D 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍅 تایمەری پۆمۆدۆرۆ</h1>
+        <p class="subtitle">تکنیکی پۆمۆدۆرۆ - کار و وەستینەر
+            دروست کراوە لەلایەن ئیریڤان
+        </p>
+        
+        <div class="status" id="status">جلسەی کار - چرخەی 1/2</div>
+        
+        <div class="timer-display" id="display">45:00</div>
+        
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="controls">
+            <button onclick="toggleTimer()" id="startBtn">🎬 دەست پێ بکە</button>
+            <button class="reset-btn" onclick="resetTimer()">🔄 دووبارە</button>
+        </div>
+
+        <button class="settings-btn" onclick="openSettings()">⚙️ ڕێکخستن</button>
+        
+        <div class="cycle-info">
+            <div class="cycle-box">
+                <h3>چرخە</h3>
+                <p id="currentCycle">1/2</p>
+            </div>
+            <div class="cycle-box">
+                <h3>تێچوو</h3>
+                <p id="totalCycles">0</p>
+            </div>
+        </div>
+        
+        <div class="info">
+            <p><strong>⏱️ کۆی ماوە:</strong> <span id="totalTime">170</span> خولەک</p>
+            <p id="nextSession"></p>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSettings()">&times;</span>
+            <h2 style="color: #FF6B6B; margin-bottom: 20px;">⚙️ ڕێکخستنەکان</h2>
+            
+            <div class="setting-group">
+                <label>⏱️ ماوەی کار (خولەک):</label>
+                <input type="number" id="workInput" min="1" max="120" value="45">
+            </div>
+            
+            <div class="setting-group">
+                <label>☕ ماوەی وەستەی کورت (خولەک):</label>
+                <input type="number" id="breakInput" min="1" max="60" value="10">
+            </div>
+            
+            <div class="setting-group">
+                <label>😴 ماوەی وەستەی درێژ (خولەک):</label>
+                <input type="number" id="longBreakInput" min="1" max="120" value="30">
+            </div>
+            
+            <div class="setting-group">
+                <label>🔁 ژمارەی چرخەکان:</label>
+                <input type="number" id="cyclesInput" min="1" max="10" value="2">
+            </div>
+            
+            <button class="modal-button" onclick="saveSettings()">💾 پاشەکێ بکە</button>
+        </div>
+    </div>
+
+    <script>
+        let workMins = 45;
+        let shortBreakMins = 10;
+        let longBreakMins = 30;
+        let totalCycles = 2;
+        let currentCycle = 1;
+        let completedCycles = 0;
+        let isWorking = true;
+        let isRunning = false;
+        let timeLeft = workMins * 60;
+        let totalTime = timeLeft;
+        let timerInterval;
+
+        const display = document.getElementById('display');
+        const status = document.getElementById('status');
+        const startBtn = document.getElementById('startBtn');
+        const currentCycleEl = document.getElementById('currentCycle');
+        const totalCyclesEl = document.getElementById('totalCycles');
+        const progressBar = document.getElementById('progressBar');
+        const nextSessionEl = document.getElementById('nextSession');
+        const modal = document.getElementById('settingsModal');
+        const totalTimeEl = document.getElementById('totalTime');
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateDisplay() {
+            display.textContent = formatTime(timeLeft);
+            const progress = ((totalTime - timeLeft) / totalTime) * 100;
+            progressBar.style.width = progress + '%';
+            updateNextSession();
+        }
+
+        function updateStatus() {
+            if (isWorking) {
+                status.textContent = `جلسەی کار - چرخەی ${currentCycle}/${totalCycles}`;
+            } else {
+                if (currentCycle < totalCycles) {
+                    status.textContent = `وەستەی کورت - چرخەی ${currentCycle}`;
+                } else {
+                    status.textContent = `وەستەی درێژ (کۆتایی)`;
+                }
+            }
+        }
+
+        function updateNextSession() {
+            if (isWorking) {
+                if (currentCycle < totalCycles) {
+                    nextSessionEl.textContent = `🔜 دواتر: وەستەی کورت (${shortBreakMins} خولەک)`;
+                } else {
+                    nextSessionEl.textContent = `🔜 دواتر: وەستەی درێژ (${longBreakMins} خولەک)`;
+                }
+            } else {
+                nextSessionEl.textContent = `🔜 دواتر: جلسەی کار (${workMins} خولەک)`;
+            }
+        }
+
+        function switchSession() {
+            if (isWorking) {
+                isWorking = false;
+                if (currentCycle < totalCycles) {
+                    timeLeft = shortBreakMins * 60;
+                } else {
+                    timeLeft = longBreakMins * 60;
+                }
+            } else {
+                completedCycles = currentCycle;
+                if (currentCycle < totalCycles) {
+                    currentCycle++;
+                    isWorking = true;
+                    timeLeft = workMins * 60;
+                } else {
+                    showCompletion();
+                    return;
+                }
+            }
+            totalTime = timeLeft;
+            updateStatus();
+            updateDisplay();
+            playSound();
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                startBtn.textContent = '▶️ دەروازە کردنەوە';
+                isRunning = false;
+            } else {
+                startBtn.textContent = '⏸️ ڕاگرتن';
+                isRunning = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        startBtn.textContent = '▶️ دەروازە کردنەوە';
+                        switchSession();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            currentCycle = 1;
+            completedCycles = 0;
+            isWorking = true;
+            timeLeft = workMins * 60;
+            totalTime = timeLeft;
+            startBtn.textContent = '🎬 دەست پێ بکە';
+            updateStatus();
+            updateDisplay();
+            currentCycleEl.textContent = `${currentCycle}/${totalCycles}`;
+            totalCyclesEl.textContent = '0';
+        }
+
+        function playSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch(e) {}
+        }
+
+        function showCompletion() {
+            clearInterval(timerInterval);
+            status.textContent = '🎉 جلسە تێچوو!';
+            display.textContent = '✅';
+            display.style.fontSize = '3em';
+            startBtn.textContent = '🎬 دروست بۆ دواچی؟';
+            playSound();
+        }
+
+        function openSettings() {
+            modal.style.display = 'block';
+            document.getElementById('workInput').value = workMins;
+            document.getElementById('breakInput').value = shortBreakMins;
+            document.getElementById('longBreakInput').value = longBreakMins;
+            document.getElementById('cyclesInput').value = totalCycles;
+        }
+
+        function closeSettings() {
+            modal.style.display = 'none';
+        }
+
+        function saveSettings() {
+            workMins = parseInt(document.getElementById('workInput').value);
+            shortBreakMins = parseInt(document.getElementById('breakInput').value);
+            longBreakMins = parseInt(document.getElementById('longBreakInput').value);
+            totalCycles = parseInt(document.getElementById('cyclesInput').value);
+            
+            resetTimer();
+            closeSettings();
+            
+            const newTotal = (workMins * totalCycles) + (shortBreakMins * (totalCycles - 1)) + longBreakMins;
+            totalTimeEl.textContent = newTotal;
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeSettings();
+            }
+        }
+
+        setInterval(() => {
+            currentCycleEl.textContent = `${currentCycle}/${totalCycles}`;
+            totalCyclesEl.textContent = completedCycles;
+        }, 100);
+
+        const newTotal = (workMins * totalCycles) + (shortBreakMins * (totalCycles - 1)) + longBreakMins;
+        totalTimeEl.textContent = newTotal;
+        updateStatus();
+        updateDisplay();
+    </script>
+</body>
+</html>
