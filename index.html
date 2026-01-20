@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دروست کراوە لەلایەن ئیریڤان
-        تایمەری پۆمۆدۆرۆ</title>
+    <title>🍅 تایمەری پۆمۆدۆرۆ</title>
     <style>
         * {
             margin: 0;
@@ -14,13 +13,27 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FFB84D 100%);
+            background-image: url('https://github.com/erevanakb/pomo/blob/main/photo_2026-01-20_16-05-34.jpg?raw=true');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             direction: rtl;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+            pointer-events: none;
         }
         
         .container {
@@ -109,6 +122,23 @@
             box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
         }
         
+        .settings-btn {
+            background: #FFB84D;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(255, 184, 77, 0.3);
+        }
+
+        .settings-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 184, 77, 0.4);
+        }
+        
         .info {
             background: linear-gradient(135deg, #FFE5E5 0%, #FFF3E0 100%);
             padding: 25px;
@@ -168,15 +198,47 @@
             transition: width 0.1s linear;
         }
 
-        .settings-btn {
-            background: #FFB84D;
-            color: #333;
-            border: none;
-            padding: 10px 15px;
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: inline-block;
+            padding: 12px 20px;
             border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.3s;
             cursor: pointer;
-            font-size: 1.2em;
-            margin-top: 15px;
+            border: none;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .youtube-btn {
+            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .youtube-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .facebook-btn {
+            background: linear-gradient(135deg, #1877F2 0%, #0A66C2 100%);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+        }
+
+        .facebook-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.4);
         }
 
         .modal {
@@ -251,11 +313,11 @@
 <body>
     <div class="container">
         <h1>🍅 تایمەری پۆمۆدۆرۆ</h1>
-        <p class="subtitle">تکنیکی پۆمۆدۆرۆ - کار و وەستینەر
-            دروست کراوە لەلایەن ئیریڤان
+        <p class="subtitle">تکنیکی پۆمۆدۆرۆ - کارو و وەستان
+            لەلایەن قوتابی ئیریڤان اکبر دروست کراوە
         </p>
         
-        <div class="status" id="status">جلسەی کار - چرخەی 1/2</div>
+        <div class="status" id="status"> ژمارەی خوول - خولی 1/2</div>
         
         <div class="timer-display" id="display">45:00</div>
         
@@ -269,10 +331,19 @@
         </div>
 
         <button class="settings-btn" onclick="openSettings()">⚙️ ڕێکخستن</button>
+
+        <div class="social-buttons">
+            <a href="https://youtu.be/3HjHz3SpJIc?si=QI6GOyYriJmaW1d0" target="_blank" class="social-btn youtube-btn">
+                📺 یوتیوب
+            </a>
+            <a href="https://www.facebook.com/share/1CuiahPJpt/" target="_blank" class="social-btn facebook-btn">
+                👍 فەیس بوک
+            </a>
+        </div>
         
         <div class="cycle-info">
             <div class="cycle-box">
-                <h3>چرخە</h3>
+                <h3>خول</h3>
                 <p id="currentCycle">1/2</p>
             </div>
             <div class="cycle-box">
@@ -293,26 +364,26 @@
             <h2 style="color: #FF6B6B; margin-bottom: 20px;">⚙️ ڕێکخستنەکان</h2>
             
             <div class="setting-group">
-                <label>⏱️ ماوەی کار (خولەک):</label>
+                <label>⏱️ ماوەی خول (خولەک):</label>
                 <input type="number" id="workInput" min="1" max="120" value="45">
             </div>
             
             <div class="setting-group">
-                <label>☕ ماوەی وەستەی کورت (خولەک):</label>
+                <label>☕ ماوەی وەستانی کورت (خولەک):</label>
                 <input type="number" id="breakInput" min="1" max="60" value="10">
             </div>
             
             <div class="setting-group">
-                <label>😴 ماوەی وەستەی درێژ (خولەک):</label>
+                <label>😴 ماوەی وەستانی درێژ (خولەک):</label>
                 <input type="number" id="longBreakInput" min="1" max="120" value="30">
             </div>
             
             <div class="setting-group">
-                <label>🔁 ژمارەی چرخەکان:</label>
+                <label>🔁ژمارەی خولەکان:</label>
                 <input type="number" id="cyclesInput" min="1" max="10" value="2">
             </div>
             
-            <button class="modal-button" onclick="saveSettings()">💾 پاشەکێ بکە</button>
+            <button class="modal-button" onclick="saveSettings()">💾 پاشەکەوت بکە</button>
         </div>
     </div>
 
@@ -354,12 +425,12 @@
 
         function updateStatus() {
             if (isWorking) {
-                status.textContent = `جلسەی کار - چرخەی ${currentCycle}/${totalCycles}`;
+                status.textContent = `دەسپیکی خول - خولی ${currentCycle}/${totalCycles}`;
             } else {
                 if (currentCycle < totalCycles) {
-                    status.textContent = `وەستەی کورت - چرخەی ${currentCycle}`;
+                    status.textContent = `وەستانی کورت - خولی ${currentCycle}`;
                 } else {
-                    status.textContent = `وەستەی درێژ (کۆتایی)`;
+                    status.textContent = `وەستانی درێژ (کۆتایی)`;
                 }
             }
         }
@@ -367,12 +438,12 @@
         function updateNextSession() {
             if (isWorking) {
                 if (currentCycle < totalCycles) {
-                    nextSessionEl.textContent = `🔜 دواتر: وەستەی کورت (${shortBreakMins} خولەک)`;
+                    nextSessionEl.textContent = `🔜 دواتر: وەستانی کورت (${shortBreakMins} خولەک)`;
                 } else {
-                    nextSessionEl.textContent = `🔜 دواتر: وەستەی درێژ (${longBreakMins} خولەک)`;
+                    nextSessionEl.textContent = `🔜 دواتر: وەستانی درێژ (${longBreakMins} خولەک)`;
                 }
             } else {
-                nextSessionEl.textContent = `🔜 دواتر: جلسەی کار (${workMins} خولەک)`;
+                nextSessionEl.textContent = `🔜 دواتر: خولی کار (${workMins} خولەک)`;
             }
         }
 
@@ -404,7 +475,7 @@
         function toggleTimer() {
             if (isRunning) {
                 clearInterval(timerInterval);
-                startBtn.textContent = '▶️ دەروازە کردنەوە';
+                startBtn.textContent = '▶️ بەردەوام بون ';
                 isRunning = false;
             } else {
                 startBtn.textContent = '⏸️ ڕاگرتن';
@@ -416,7 +487,7 @@
                     if (timeLeft <= 0) {
                         clearInterval(timerInterval);
                         isRunning = false;
-                        startBtn.textContent = '▶️ دەروازە کردنەوە';
+                        startBtn.textContent = '▶️ بەردەوام بون ';
                         switchSession();
                     }
                 }, 1000);
@@ -460,7 +531,7 @@
 
         function showCompletion() {
             clearInterval(timerInterval);
-            status.textContent = '🎉 جلسە تێچوو!';
+            status.textContent = '🎉 خول تەواوبونی!';
             display.textContent = '✅';
             display.style.fontSize = '3em';
             startBtn.textContent = '🎬 دروست بۆ دواچی؟';
